@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sound Healing & Breathwork</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            min-height: 100vh;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .breathing-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            min-height: 350px;
+        }
+        
+        .breathing-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #4facfe 0%, #00f2fe 100%);
+            box-shadow: 0 0 30px rgba(79, 172, 254, 0.7);
+            transition: all 4s ease-in-out;
+            margin-bottom: 20px;
+        }
+        
+        .breathing-circle.inhale {
+            transform: scale(1.5);
+        }
+        
+        .breathing-circle.hold {
+            transform: scale(1.5);
+            box-shadow: 0 0 40px rgba(79, 172, 254, 0.9);
+        }
+        
+        .breathing-circle.exhale {
+            transform: scale(1);
+        }
+        
+        .breathing-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .breathing-instruction {
+            font-size: 1rem;
+            text-align: center;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+        
+        .sound-wave {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 30px;
+            gap: 3px;
+        }
+        
+        .sound-bar {
+            width: 3px;
+            background: linear-gradient(to top, #4facfe, #00f2fe);
+            border-radius: 2px;
+            animation: wave 1.5s infinite ease-in-out;
+        }
+        
+        .sound-bar:nth-child(1) { height: 10px; animation-delay: 0s; }
+        .sound-bar:nth-child(2) { height: 20px; animation-delay: 0.1s; }
+        .sound-bar:nth-child(3) { height: 15px; animation-delay: 0.2s; }
+        .sound-bar:nth-child(4) { height: 25px; animation-delay: 0.3s; }
+        .sound-bar:nth-child(5) { height: 18px; animation-delay: 0.4s; }
+        
+        @keyframes wave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.5); }
+        }
+        
+        .sound-control {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .sound-control:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .tab-button {
+            padding: 8px 16px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .tab-button.active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .overlay.active {
+            display: flex;
+        }
+        
+        .sound-panel {
+            width: 90%;
+            max-width: 400px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .frequency-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 5px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+        }
+        
+        .frequency-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4facfe;
+            cursor: pointer;
+        }
+        
+        .goal-input {
+            width: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            padding: 4px 8px;
+            color: white;
+            text-align: center;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(79, 172, 254, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <header class="text-center p-4">
+        <h1 class="text-2xl md:text-3xl font-bold mb-2">Sound Healing & Breathwork</h1>
+        <p class="text-base md:text-lg opacity-80">Find your inner peace with healing sounds</p>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 pb-20">
+        <!-- Stats Bar -->
+        <section class="glass-morphism p-3 mb-4 flex justify-between items-center flex-wrap gap-2">
+            <div class="flex items-center gap-2 text-sm">
+                <i class="fas fa-fire text-orange-400"></i>
+                <span>Streak: <span id="streak">0</span> days</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+                <i class="fas fa-coins text-yellow-400"></i>
+                <span>Points: <span id="points">0</span></span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+                <i class="fas fa-clock text-blue-400"></i>
+                <span>Total Time: <span id="totalTime">0</span> min</span>
+            </div>
+            <button id="soundControlBtn" class="sound-control">
+                <i class="fas fa-sliders-h"></i>
+            </button>
+        </section>
+
+        <!-- Tab Navigation -->
+        <section class="flex justify-center mb-4 gap-2 flex-wrap">
+            <button class="tab-button active" data-tab="soundbath">
+                <i class="fas fa-music mr-1"></i>Sound Bath
+            </button>
+            <button class="tab-button" data-tab="breathing">
+                <i class="fas fa-wind mr-1"></i>Breathing
+            </button>
+            <button class="tab-button" data-tab="progress">
+                <i class="fas fa-chart-line mr-1"></i>Progress
+            </button>
+        </section>
+
+        <!-- Sound Bath Tab -->
+        <section id="soundbath-tab" class="tab-content">
+            <div class="glass-morphism p-4 mb-4">
+                <h2 class="text-xl font-semibold mb-3">Choose Your Sound Bath</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    <div class="sound-option glass-morphism p-3 cursor-pointer" data-sound="tibetan">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-base font-medium">Tibetan Bowls</h3>
+                            <div class="sound-wave">
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                            </div>
+                        </div>
+                        <p class="text-xs opacity-80 mb-2">Rich harmonic overtones for relaxation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs opacity-70">20 min</span>
+                            <button class="play-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="sound-option glass-morphism p-3 cursor-pointer" data-sound="crystal">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-base font-medium">Crystal Bowls</h3>
+                            <div class="sound-wave">
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                            </div>
+                        </div>
+                        <p class="text-xs opacity-80 mb-2">Tuned to specific frequencies (432Hz or 528Hz)</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs opacity-70">25 min</span>
+                            <button class="play-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="sound-option glass-morphism p-3 cursor-pointer" data-sound="gong">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-base font-medium">Gong Bath</h3>
+                            <div class="sound-wave">
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                            </div>
+                        </div>
+                        <p class="text-xs opacity-80 mb-2">Broad frequency spectrum for deep immersion</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs opacity-70">30 min</span>
+                            <button class="play-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="sound-option glass-morphism p-3 cursor-pointer" data-sound="binaural">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-base font-medium">Binaural Beats</h3>
+                            <div class="sound-wave">
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                            </div>
+                        </div>
+                        <p class="text-xs opacity-80 mb-2">Two tones to guide brainwave states</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs opacity-70">15 min</span>
+                            <button class="play-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="sound-option glass-morphism p-3 cursor-pointer" data-sound="tuning">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-base font-medium">Tuning Fork</h3>
+                            <div class="sound-wave">
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                            </div>
+                        </div>
+                        <p class="text-xs opacity-80 mb-2">Direct vibrational stimulation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs opacity-70">10 min</span>
+                            <button class="play-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="sound-option glass-morphism p-3 cursor-pointer" data-sound="custom">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-base font-medium">Custom</h3>
+                            <div class="sound-wave">
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                                <div class="sound-bar"></div>
+                            </div>
+                        </div>
+                        <p class="text-xs opacity-80 mb-2">Create your own healing frequency</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs opacity-70">Variable</span>
+                            <button class="play-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Now Playing Module -->
+            <div class="glass-morphism p-4">
+                <h2 class="text-xl font-semibold mb-3">Now Playing</h2>
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <h3 id="nowPlayingTitle" class="text-lg font-medium">Nothing selected</h3>
+                        <p id="nowPlayingTime" class="text-sm opacity-80">0:00 / 0:00</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button id="prevBtn" class="sound-control">
+                            <i class="fas fa-backward"></i>
+                        </button>
+                        <button id="playPauseBtn" class="sound-control">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button id="nextBtn" class="sound-control">
+                            <i class="fas fa-forward"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                    <div id="progressBar" class="bg-blue-500 h-2 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Breathing Tab -->
+        <section id="breathing-tab" class="tab-content hidden">
+            <div class="glass-morphism p-4 mb-4">
+                <h2 class="text-xl font-semibold mb-3">Choose Your Breathing Exercise</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    <div class="breathing-option glass-morphism p-3 cursor-pointer" data-breathing="box">
+                        <h3 class="text-base font-medium mb-2">Box Breathing</h3>
+                        <p class="text-xs opacity-80 mb-2">Inhale 4s → Hold 4s → Exhale 4s → Hold 4s</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs opacity-70">5-10 min</span>
+                            <button class="start-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="breathing-option glass-morphism p-3 cursor-pointer" data-breathing="478">
+                        <h3 class="text-base font-medium mb-2">4-7-8 Breathing</h3>
+                        <p class="text-xs opacity-80 mb-2">Inhale 4s → Hold 7s → Exhale 8s</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs opacity-70">3-5 min</span>
+                            <button class="start-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="breathing-option glass-morphism p-3 cursor-pointer" data-breathing="resonant">
+                        <h3 class="text-base font-medium mb-2">Resonant Breathing</h3>
+                        <p class="text-xs opacity-80 mb-2">Inhale 5s → Exhale 5s (6 breaths/min)</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs opacity-70">10-20 min</span>
+                            <button class="start-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="breathing-option glass-morphism p-3 cursor-pointer" data-breathing="alternate">
+                        <h3 class="text-base font-medium mb-2">Alternate Nostril</h3>
+                        <p class="text-xs opacity-80 mb-2">Close right nostril, inhale left</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs opacity-70">5-15 min</span>
+                            <button class="start-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="breathing-option glass-morphism p-3 cursor-pointer" data-breathing="kundalini">
+                        <h3 class="text-base font-medium mb-2">Kundalini Breath</h3>
+                        <p class="text-xs opacity-80 mb-2">Fast, shallow diaphragmatic breaths</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs opacity-70">1-3 min</span>
+                            <button class="start-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="breathing-option glass-morphism p-3 cursor-pointer" data-breathing="combined">
+                        <h3 class="text-base font-medium mb-2">Sound + Breath</h3>
+                        <p class="text-xs opacity-80 mb-2">Combine sound bath with breathing</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs opacity-70">15-30 min</span>
+                            <button class="start-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Breathing Module -->
+            <div class="glass-morphism p-4">
+                <div class="breathing-container">
+                    <div id="breathingCircle" class="breathing-circle"></div>
+                    <h3 id="breathingPhase" class="breathing-text">Ready</h3>
+                    <p id="breathingInstruction" class="breathing-instruction">Select a breathing exercise to begin</p>
+                    <div class="flex gap-4">
+                        <button id="breathingPlayPauseBtn" class="sound-control">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button id="breathingResetBtn" class="sound-control">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Tab -->
+        <section id="progress-tab" class="tab-content hidden">
+            <div class="glass-morphism p-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold">Progress Tracking</h2>
+                    <div class="flex gap-2">
+                        <button id="resetDataBtn" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-full text-sm">
+                            <i class="fas fa-trash mr-1"></i>Reset
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="font-medium">Daily Goal</span>
+                                <span id="dailyProgress" class="text-sm opacity-80">0/0 min</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="dailyGoalInput" class="goal-input" value="10" min="1" max="60">
+                                <span class="text-sm">min</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="dailyProgressBar" class="bg-blue-500 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="font-medium">Weekly Goal</span>
+                                <span id="weeklyProgress" class="text-sm opacity-80">0/0 min</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="weeklyGoalInput" class="goal-input" value="60" min="1" max="300">
+                                <span class="text-sm">min</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="weeklyProgressBar" class="bg-blue-500 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="font-medium">Monthly Goal</span>
+                                <span id="monthlyProgress" class="text-sm opacity-80">0/0 min</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="monthlyGoalInput" class="goal-input" value="300" min="1" max="1000">
+                                <span class="text-sm">min</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="monthlyProgressBar" class="bg-blue-500 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Sound Control Overlay -->
+    <div id="soundOverlay" class="overlay">
+        <div class="sound-panel">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Sound Control</h2>
+                <button id="closeOverlay" class="sound-control">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Master Volume</label>
+                    <div class="flex items-center gap-3">
+                        <input type="range" id="masterVolume" class="frequency-slider flex-1" min="0" max="100" value="70">
+                        <span id="masterVolumeValue" class="text-sm w-10">70%</span>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Frequency (Hz)</label>
+                    <div class="flex items-center gap-3">
+                        <input type="range" id="frequency" class="frequency-slider flex-1" min="100" max="1000" value="432">
+                        <span id="frequencyValue" class="text-sm w-12">432Hz</span>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center gap-3 mt-4">
+                    <button id="resetSoundBtn" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-full text-sm">
+                        Reset
+                    </button>
+                    <button id="applySoundBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm">
+                        Apply
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Audio Context Setup
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let currentOscillator = null;
+        let gainNode = audioContext.createGain();
+        gainNode.connect(audioContext.destination);
+        gainNode.gain.value = 0.7;
+        
+        // App State
+        let appState = {
+            currentTab: 'soundbath',
+            currentSound: null,
+            isPlaying: false,
+            currentBreathing: null,
+            isBreathing: false,
+            breathingPhase: 'ready',
+            points: 0,
+            streak: 0,
+            totalTime: 0,
+            soundSettings: {
+                volume: 70,
+                frequency: 432
+            },
+            progress: {
+                daily: { current: 0, goal: 10 },
+                weekly: { current: 0, goal: 60 },
+                monthly: { current: 0, goal: 300 }
+            }
+        };
+        
+        // Initialize UI
+        function initUI() {
+            updateStats();
+            updateProgress();
+            setupEventListeners();
+            loadState();
+        }
+        
+        // Update stats display
+        function updateStats() {
+            document.getElementById('streak').textContent = appState.streak;
+            document.getElementById('points').textContent = appState.points;
+            document.getElementById('totalTime').textContent = appState.totalTime;
+        }
+        
+        // Update progress display
+        function updateProgress() {
+            // Daily progress
+            const dailyPercent = Math.min(100, (appState.progress.daily.current / appState.progress.daily.goal) * 100);
+            document.getElementById('dailyProgressBar').style.width = `${dailyPercent}%`;
+            document.getElementById('dailyProgress').textContent = `${appState.progress.daily.current}/${appState.progress.daily.goal} min`;
+            document.getElementById('dailyGoalInput').value = appState.progress.daily.goal;
+            
+            // Weekly progress
+            const weeklyPercent = Math.min(100, (appState.progress.weekly.current / appState.progress.weekly.goal) * 100);
+            document.getElementById('weeklyProgressBar').style.width = `${weeklyPercent}%`;
+            document.getElementById('weeklyProgress').textContent = `${appState.progress.weekly.current}/${appState.progress.weekly.goal} min`;
+            document.getElementById('weeklyGoalInput').value = appState.progress.weekly.goal;
+            
+            // Monthly progress
+            const monthlyPercent = Math.min(100, (appState.progress.monthly.current / appState.progress.monthly.goal) * 100);
+            document.getElementById('monthlyProgressBar').style.width = `${monthlyPercent}%`;
+            document.getElementById('monthlyProgress').textContent = `${appState.progress.monthly.current}/${appState.progress.monthly.goal} min`;
+            document.getElementById('monthlyGoalInput').value = appState.progress.monthly.goal;
+        }
+        
+        // Save state to localStorage
+        function saveState() {
+            localStorage.setItem('appState', JSON.stringify(appState));
+        }
+        
+        // Load state from localStorage
+        function loadState() {
+            const savedState = localStorage.getItem('appState');
+            if (savedState) {
+                const loadedState = JSON.parse(savedState);
+                // Only load certain properties to ensure clean start
+                appState.points = loadedState.points || 0;
+                appState.streak = loadedState.streak || 0;
+                appState.totalTime = loadedState.totalTime || 0;
+                appState.soundSettings = loadedState.soundSettings || appState.soundSettings;
+                appState.progress = loadedState.progress || appState.progress;
+                
+                updateStats();
+                updateProgress();
+            }
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Tab navigation
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    switchTab(tabName);
+                    playClickSound();
+                });
+            });
+            
+            // Sound overlay
+            document.getElementById('soundControlBtn').addEventListener('click', function() {
+                document.getElementById('soundOverlay').classList.add('active');
+                playClickSound();
+            });
+            
+            document.getElementById('closeOverlay').addEventListener('click', function() {
+                document.getElementById('soundOverlay').classList.remove('active');
+                playClickSound();
+            });
+            
+            // Sound options
+            document.querySelectorAll('.sound-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const soundType = this.getAttribute('data-sound');
+                    selectSound(soundType);
+                    playClickSound();
+                });
+            });
+            
+            // Play buttons for sound options
+            document.querySelectorAll('.sound-option .play-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const soundType = this.closest('.sound-option').getAttribute('data-sound');
+                    selectSound(soundType);
+                    playSound(soundType);
+                    playClickSound();
+                });
+            });
+            
+            // Playback controls
+            document.getElementById('playPauseBtn').addEventListener('click', function() {
+                if (appState.currentSound) {
+                    if (appState.isPlaying) {
+                        pauseSound();
+                    } else {
+                        playSound(appState.currentSound);
+                    }
+                }
+                playClickSound();
+            });
+            
+            // Breathing options
+            document.querySelectorAll('.breathing-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const breathingType = this.getAttribute('data-breathing');
+                    selectBreathing(breathingType);
+                    playClickSound();
+                });
+            });
+            
+            // Start buttons for breathing options
+            document.querySelectorAll('.breathing-option .start-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const breathingType = this.closest('.breathing-option').getAttribute('data-breathing');
+                    selectBreathing(breathingType);
+                    startBreathing();
+                    playClickSound();
+                });
+            });
+            
+            // Breathing controls
+            document.getElementById('breathingPlayPauseBtn').addEventListener('click', function() {
+                if (appState.currentBreathing) {
+                    if (appState.isBreathing) {
+                        pauseBreathing();
+                    } else {
+                        startBreathing();
+                    }
+                }
+                playClickSound();
+            });
+            
+            document.getElementById('breathingResetBtn').addEventListener('click', function() {
+                resetBreathing();
+                playClickSound();
+            });
+            
+            // Progress controls
+            document.getElementById('dailyGoalInput').addEventListener('change', function() {
+                appState.progress.daily.goal = parseInt(this.value);
+                updateProgress();
+                saveState();
+                playClickSound();
+            });
+            
+            document.getElementById('weeklyGoalInput').addEventListener('change', function() {
+                appState.progress.weekly.goal = parseInt(this.value);
+                updateProgress();
+                saveState();
+                playClickSound();
+            });
+            
+            document.getElementById('monthlyGoalInput').addEventListener('change', function() {
+                appState.progress.monthly.goal = parseInt(this.value);
+                updateProgress();
+                saveState();
+                playClickSound();
+            });
+            
+            document.getElementById('resetDataBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to reset all progress data? This cannot be undone.')) {
+                    resetProgressData();
+                    playClickSound();
+                }
+            });
+            
+            // Sound overlay controls
+            document.getElementById('masterVolume').addEventListener('input', function() {
+                document.getElementById('masterVolumeValue').textContent = this.value + '%';
+                appState.soundSettings.volume = this.value;
+            });
+            
+            document.getElementById('frequency').addEventListener('input', function() {
+                document.getElementById('frequencyValue').textContent = this.value + 'Hz';
+                appState.soundSettings.frequency = this.value;
+            });
+            
+            // Reset and apply buttons
+            document.getElementById('resetSoundBtn').addEventListener('click', function() {
+                resetSoundSettings();
+                playClickSound();
+            });
+            
+            document.getElementById('applySoundBtn').addEventListener('click', function() {
+                applySoundSettings();
+                playClickSound();
+            });
+        }
+        
+        // Switch tab
+        function switchTab(tabName) {
+            appState.currentTab = tabName;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                if (button.getAttribute('data-tab') === tabName) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+        }
+        
+        // Select sound
+        function selectSound(soundType) {
+            appState.currentSound = soundType;
+            
+            // Update UI
+            document.getElementById('nowPlayingTitle').textContent = getSoundTitle(soundType);
+            
+            // Highlight selected option
+            document.querySelectorAll('.sound-option').forEach(option => {
+                option.classList.remove('ring-2', 'ring-blue-500');
+            });
+            
+            document.querySelector(`.sound-option[data-sound="${soundType}"]`).classList.add('ring-2', 'ring-blue-500');
+        }
+        
+        // Get sound title
+        function getSoundTitle(soundType) {
+            const titles = {
+                'tibetan': 'Tibetan Bowls',
+                'crystal': 'Crystal Bowls',
+                'gong': 'Gong Bath',
+                'binaural': 'Binaural Beats',
+                'tuning': 'Tuning Fork',
+                'custom': 'Custom Frequency'
+            };
+            
+            return titles[soundType] || 'Unknown';
+        }
+        
+        // Play sound
+        function playSound(soundType) {
+            // Stop any existing sound
+            if (currentOscillator) {
+                currentOscillator.stop();
+                currentOscillator = null;
+            }
+            
+            // Create new oscillator
+            currentOscillator = audioContext.createOscillator();
+            currentOscillator.connect(gainNode);
+            
+            // Set frequency based on sound type
+            let frequency;
+            switch (soundType) {
+                case 'tibetan':
+                    frequency = 136.1; // OM frequency
+                    currentOscillator.type = 'sine';
+                    break;
+                case 'crystal':
+                    frequency = 528; // Love frequency
+                    currentOscillator.type = 'sine';
+                    break;
+                case 'gong':
+                    frequency = 80; // Low frequency
+                    currentOscillator.type = 'triangle';
+                    break;
+                case 'binaural':
+                    // Create binaural beats
+                    createBinauralBeats();
+                    return;
+                case 'tuning':
+                    frequency = 432; // Verdi's A
+                    currentOscillator.type = 'sine';
+                    break;
+                case 'custom':
+                    frequency = appState.soundSettings.frequency;
+                    currentOscillator.type = 'sine';
+                    break;
+                default:
+                    frequency = 432;
+                    currentOscillator.type = 'sine';
+            }
+            
+            currentOscillator.frequency.value = frequency;
+            currentOscillator.start();
+            
+            // Update UI
+            appState.isPlaying = true;
+            document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-pause"></i>';
+            
+            // Start progress tracking
+            startProgressTracking(soundType);
+            
+            // Award points
+            awardPoints(10);
+        }
+        
+        // Create binaural beats
+        function createBinauralBeats() {
+            // Left ear
+            const leftOscillator = audioContext.createOscillator();
+            const leftGain = audioContext.createGain();
+            
+            // Right ear
+            const rightOscillator = audioContext.createOscillator();
+            const rightGain = audioContext.createGain();
+            
+            // Merger to combine channels
+            const merger = audioContext.createChannelMerger(2);
+            
+            // Set up left channel
+            leftOscillator.frequency.value = 200;
+            leftOscillator.type = 'sine';
+            leftGain.gain.value = 0.5;
+            
+            // Set up right channel
+            rightOscillator.frequency.value = 210; // 10Hz difference for alpha waves
+            rightOscillator.type = 'sine';
+            rightGain.gain.value = 0.5;
+            
+            // Connect nodes
+            leftOscillator.connect(leftGain);
+            leftGain.connect(merger, 0, 0);
+            
+            rightOscillator.connect(rightGain);
+            rightGain.connect(merger, 0, 1);
+            
+            merger.connect(gainNode);
+            
+            // Start oscillators
+            leftOscillator.start();
+            rightOscillator.start();
+            
+            // Store for stopping later
+            currentOscillator = {
+                stop: function() {
+                    leftOscillator.stop();
+                    rightOscillator.stop();
+                }
+            };
+            
+            // Update UI
+            appState.isPlaying = true;
+            document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-pause"></i>';
+            
+            // Start progress tracking
+            startProgressTracking('binaural');
+            
+            // Award points
+            awardPoints(10);
+        }
+        
+        // Pause sound
+        function pauseSound() {
+            if (currentOscillator) {
+                currentOscillator.stop();
+                currentOscillator = null;
+            }
+            
+            appState.isPlaying = false;
+            document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-play"></i>';
+        }
+        
+        // Start progress tracking
+        function startProgressTracking(soundType) {
+            const durations = {
+                'tibetan': 20 * 60, // 20 minutes in seconds
+                'crystal': 25 * 60,
+                'gong': 30 * 60,
+                'binaural': 15 * 60,
+                'tuning': 10 * 60,
+                'custom': 15 * 60
+            };
+            
+            const duration = durations[soundType] || 15 * 60;
+            let currentTime = 0;
+            
+            const interval = setInterval(() => {
+                if (!appState.isPlaying) {
+                    clearInterval(interval);
+                    return;
+                }
+                
+                currentTime++;
+                const progress = (currentTime / duration) * 100;
+                
+                // Update progress bar
+                document.getElementById('progressBar').style.width = `${progress}%`;
+                
+                // Update time display
+                const currentMinutes = Math.floor(currentTime / 60);
+                const currentSeconds = currentTime % 60;
+                const totalMinutes = Math.floor(duration / 60);
+                const totalSeconds = duration % 60;
+                
+                document.getElementById('nowPlayingTime').textContent = 
+                    `${currentMinutes}:${currentSeconds.toString().padStart(2, '0')} / ${totalMinutes}:${totalSeconds.toString().padStart(2, '0')}`;
+                
+                // Update total time
+                if (currentTime % 60 === 0) {
+                    appState.totalTime++;
+                    appState.progress.daily.current++;
+                    appState.progress.weekly.current++;
+                    appState.progress.monthly.current++;
+                    
+                    updateStats();
+                    updateProgress();
+                    saveState();
+                }
+                
+                // Check if completed
+                if (currentTime >= duration) {
+                    clearInterval(interval);
+                    pauseSound();
+                    awardPoints(50); // Bonus points for completing
+                    showNotification('Session completed! Great job!');
+                }
+            }, 1000);
+        }
+        
+        // Select breathing exercise
+        function selectBreathing(breathingType) {
+            appState.currentBreathing = breathingType;
+            
+            // Update UI
+            document.getElementById('breathingPhase').textContent = 'Ready';
+            document.getElementById('breathingInstruction').textContent = getBreathingInstruction(breathingType);
+            
+            // Highlight selected option
+            document.querySelectorAll('.breathing-option').forEach(option => {
+                option.classList.remove('ring-2', 'ring-blue-500');
+            });
+            
+            document.querySelector(`.breathing-option[data-breathing="${breathingType}"]`).classList.add('ring-2', 'ring-blue-500');
+        }
+        
+        // Get breathing instruction
+        function getBreathingInstruction(breathingType) {
+            const instructions = {
+                'box': 'Inhale for 4 seconds, hold for 4 seconds, exhale for 4 seconds, hold for 4 seconds',
+                '478': 'Inhale for 4 seconds, hold for 7 seconds, exhale for 8 seconds',
+                'resonant': 'Inhale for 5 seconds, exhale for 5 seconds (6 breaths per minute)',
+                'alternate': 'Close right nostril, inhale through left, close left, exhale through right',
+                'kundalini': 'Take rapid, shallow breaths at about 1 breath per second',
+                'combined': 'Follow the breathing pattern while listening to healing sounds'
+            };
+            
+            return instructions[breathingType] || 'Select a breathing exercise to begin';
+        }
+        
+        // Start breathing exercise
+        function startBreathing() {
+            if (!appState.currentBreathing) return;
+            
+            appState.isBreathing = true;
+            document.getElementById('breathingPlayPauseBtn').innerHTML = '<i class="fas fa-pause"></i>';
+            
+            // If combined exercise, also start sound
+            if (appState.currentBreathing === 'combined') {
+                selectSound('tibetan');
+                playSound('tibetan');
+            }
+            
+            // Start breathing animation
+            const circle = document.getElementById('breathingCircle');
+            const phaseText = document.getElementById('breathingPhase');
+            const instructionText = document.getElementById('breathingInstruction');
+            
+            let phaseIndex = 0;
+            let phaseTimer = null;
+            
+            const runBreathingCycle = () => {
+                if (!appState.isBreathing) return;
+                
+                const phases = getBreathingPhases(appState.currentBreathing);
+                const currentPhase = phases[phaseIndex];
+                
+                // Update UI
+                phaseText.textContent = currentPhase.name;
+                instructionText.textContent = currentPhase.instruction;
+                
+                // Update circle animation
+                circle.className = 'breathing-circle';
+                if (currentPhase.animation) {
+                    circle.classList.add(currentPhase.animation);
+                }
+                
+                // Play sound for phase transition
+                if (currentPhase.sound) {
+                    playPhaseSound(currentPhase.sound);
+                }
+                
+                // Set timer for next phase
+                phaseTimer = setTimeout(() => {
+                    phaseIndex = (phaseIndex + 1) % phases.length;
+                    runBreathingCycle();
+                }, currentPhase.duration * 1000);
+            };
+            
+            runBreathingCycle();
+            
+            // Store timer reference for cleanup
+            appState.breathingTimer = phaseTimer;
+            
+            // Award points
+            awardPoints(5);
+            
+            // Start time tracking
+            appState.breathingStartTime = Date.now();
+            appState.breathingTimeInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - appState.breathingStartTime) / 1000);
+                if (elapsed % 60 === 0) {
+                    appState.totalTime++;
+                    appState.progress.daily.current++;
+                    appState.progress.weekly.current++;
+                    appState.progress.monthly.current++;
+                    
+                    updateStats();
+                    updateProgress();
+                    saveState();
+                }
+            }, 1000);
+        }
+        
+        // Get breathing phases
+        function getBreathingPhases(breathingType) {
+            const phases = {
+                'box': [
+                    { name: 'Inhale', instruction: 'Breathe in slowly', duration: 4, animation: 'inhale', sound: 'inhale' },
+                    { name: 'Hold', instruction: 'Hold your breath', duration: 4, animation: 'hold', sound: 'hold' },
+                    { name: 'Exhale', instruction: 'Breathe out slowly', duration: 4, animation: 'exhale', sound: 'exhale' },
+                    { name: 'Hold', instruction: 'Hold your breath', duration: 4, animation: 'hold', sound: 'hold' }
+                ],
+                '478': [
+                    { name: 'Inhale', instruction: 'Breathe in slowly', duration: 4, animation: 'inhale', sound: 'inhale' },
+                    { name: 'Hold', instruction: 'Hold your breath', duration: 7, animation: 'hold', sound: 'hold' },
+                    { name: 'Exhale', instruction: 'Breathe out slowly', duration: 8, animation: 'exhale', sound: 'exhale' }
+                ],
+                'resonant': [
+                    { name: 'Inhale', instruction: 'Breathe in slowly', duration: 5, animation: 'inhale', sound: 'inhale' },
+                    { name: 'Exhale', instruction: 'Breathe out slowly', duration: 5, animation: 'exhale', sound: 'exhale' }
+                ],
+                'alternate': [
+                    { name: 'Inhale Left', instruction: 'Close right nostril, inhale through left', duration: 4, animation: 'inhale', sound: 'inhale' },
+                    { name: 'Exhale Right', instruction: 'Close left nostril, exhale through right', duration: 4, animation: 'exhale', sound: 'exhale' },
+                    { name: 'Inhale Right', instruction: 'Close left nostril, inhale through right', duration: 4, animation: 'inhale', sound: 'inhale' },
+                    { name: 'Exhale Left', instruction: 'Close right nostril, exhale through left', duration: 4, animation: 'exhale', sound: 'exhale' }
+                ],
+                'kundalini': [
+                    { name: 'Inhale', instruction: 'Quick inhale', duration: 1, animation: 'inhale', sound: 'inhale' },
+                    { name: 'Exhale', instruction: 'Quick exhale', duration: 1, animation: 'exhale', sound: 'exhale' }
+                ],
+                'combined': [
+                    { name: 'Inhale', instruction: 'Breathe in slowly with the sound', duration: 4, animation: 'inhale', sound: 'inhale' },
+                    { name: 'Hold', instruction: 'Hold your breath', duration: 4, animation: 'hold', sound: 'hold' },
+                    { name: 'Exhale', instruction: 'Breathe out slowly', duration: 4, animation: 'exhale', sound: 'exhale' },
+                    { name: 'Hold', instruction: 'Hold your breath', duration: 4, animation: 'hold', sound: 'hold' }
+                ]
+            };
+            
+            return phases[breathingType] || phases['box'];
+        }
+        
+        // Play phase sound
+        function playPhaseSound(phase) {
+            // Create a short sound to indicate phase transition
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            // Set frequency based on phase
+            switch (phase) {
+                case 'inhale':
+                    oscillator.frequency.value = 528; // Love frequency
+                    break;
+                case 'hold':
+                    oscillator.frequency.value = 432; // Verdi's A
+                    break;
+                case 'exhale':
+                    oscillator.frequency.value = 396; // Liberating guilt
+                    break;
+                default:
+                    oscillator.frequency.value = 432;
+            }
+            
+            oscillator.type = 'sine';
+            gainNode.gain.value = 0.3;
+            
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+        
+        // Pause breathing exercise
+        function pauseBreathing() {
+            appState.isBreathing = false;
+            document.getElementById('breathingPlayPauseBtn').innerHTML = '<i class="fas fa-play"></i>';
+            
+            // Clear timer
+            if (appState.breathingTimer) {
+                clearTimeout(appState.breathingTimer);
+                appState.breathingTimer = null;
+            }
+            
+            // Clear time tracking
+            if (appState.breathingTimeInterval) {
+                clearInterval(appState.breathingTimeInterval);
+                appState.breathingTimeInterval = null;
+            }
+            
+            // Reset circle animation
+            document.getElementById('breathingCircle').className = 'breathing-circle';
+            document.getElementById('breathingPhase').textContent = 'Paused';
+            document.getElementById('breathingInstruction').textContent = 'Press play to continue';
+            
+            // Stop sound if combined exercise
+            if (appState.currentBreathing === 'combined' && appState.isPlaying) {
+                pauseSound();
+            }
+        }
+        
+        // Reset breathing exercise
+        function resetBreathing() {
+            pauseBreathing();
+            
+            appState.currentBreathing = null;
+            document.getElementById('breathingPhase').textContent = 'Ready';
+            document.getElementById('breathingInstruction').textContent = 'Select a breathing exercise to begin';
+            
+            // Clear selection
+            document.querySelectorAll('.breathing-option').forEach(option => {
+                option.classList.remove('ring-2', 'ring-blue-500');
+            });
+        }
+        
+        // Reset sound settings
+        function resetSoundSettings() {
+            appState.soundSettings = {
+                volume: 70,
+                frequency: 432
+            };
+            
+            // Update UI
+            document.getElementById('masterVolume').value = 70;
+            document.getElementById('masterVolumeValue').textContent = '70%';
+            document.getElementById('frequency').value = 432;
+            document.getElementById('frequencyValue').textContent = '432Hz';
+        }
+        
+        // Apply sound settings
+        function applySoundSettings() {
+            // Apply volume
+            gainNode.gain.value = appState.soundSettings.volume / 100;
+            
+            // Close overlay
+            document.getElementById('soundOverlay').classList.remove('active');
+            
+            // Show confirmation
+            showNotification('Sound settings applied');
+        }
+        
+        // Reset progress data
+        function resetProgressData() {
+            appState.progress = {
+                daily: { current: 0, goal: 10 },
+                weekly: { current: 0, goal: 60 },
+                monthly: { current: 0, goal: 300 }
+            };
+            
+            saveState();
+            updateProgress();
+            showNotification('Progress data reset');
+        }
+        
+        // Award points
+        function awardPoints(points) {
+            appState.points += points;
+            updateStats();
+            saveState();
+            
+            // Show points notification
+            showNotification(`+${points} points!`);
+        }
+        
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Play click sound
+        function playClickSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            gainNode.gain.value = 0.1;
+            
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+        
+        // Initialize app
+        initUI();
+    </script>
+</body>
+</html>
