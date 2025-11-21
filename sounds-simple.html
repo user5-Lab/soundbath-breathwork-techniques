@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Soundbath Frequency </title>
+<style>
+  body {
+    margin: 0;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0033 100%);
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .cosmic-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: radial-gradient(ellipse at bottom, #1a0033 0%, #0a0a0a 100%);
+    overflow: hidden;
+  }
+
+  .stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.8; }
+  }
+
+  .nebula {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.2;
+    animation: float 20s infinite ease-in-out;
+  }
+
+  .nebula1 {
+    background: #4a00ff;
+    top: 10%;
+    left: 10%;
+  }
+
+  .nebula2 {
+    background: #ff00aa;
+    bottom: 20%;
+    right: 10%;
+    animation-delay: -5s;
+  }
+
+  .nebula3 {
+    background: #00aaff;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: -10s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.05); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+  }
+
+  h1 {
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px rgba(100, 100, 255, 0.5);
+    animation: glow 3s infinite alternate;
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 10px rgba(100, 100, 255, 0.5); }
+    to { text-shadow: 0 0 20px rgba(100, 100, 255, 0.8), 0 0 30px rgba(100, 100, 255, 0.6); }
+  }
+
+  .panel {
+    background: rgba(20, 20, 40, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(100, 100, 255, 0.2);
+  }
+
+  .panel h2 {
+    margin-top: 0;
+    font-weight: 400;
+    color: #aaccff;
+    display: flex;
+    align-items: center;
+  }
+
+  .panel h2::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4a8cff;
+    margin-right: 10px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  label, select, button, input {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+
+  label {
+    font-size: 14px;
+    color: #aaccff;
+    margin-bottom: 5px;
+  }
+
+  select, input {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  select:focus, input:focus {
+    outline: none;
+    border-color: #4a8cff;
+    box-shadow: 0 0 0 2px rgba(74, 140, 255, 0.2);
+  }
+
+  .button-container {
+    display: flex;
+    gap: 10px;
+  }
+
+  button {
+    background: linear-gradient(135deg, #4a5aff 0%, #7a4aff 100%);
+    color: #fff;
+    cursor: pointer;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    flex: 1;
+  }
+
+  button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  button:hover::before {
+    left: 100%;
+  }
+
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 140, 255, 0.4);
+  }
+
+  button:active {
+    transform: translateY(0);
+  }
+
+  button.stop {
+    background: linear-gradient(135deg, #ff4a4a 0%, #ff7a4a 100%);
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .playing-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #4aff4a;
+    margin-left: 10px;
+    animation: blink 1s infinite;
+    opacity: 0;
+  }
+
+  .playing-indicator.active {
+    opacity: 1;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .frequency-display {
+    text-align: center;
+    font-size: 24px;
+    margin: 15px 0;
+    font-weight: 300;
+    color: #aaccff;
+    height: 30px;
+  }
+
+  .wave-visualizer {
+    height: 60px;
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+  }
+
+  .wave-bar {
+    width: 4px;
+    background: linear-gradient(to top, #4a5aff, #aaccff);
+    border-radius: 2px;
+    animation: wave 1.5s infinite ease-in-out;
+    opacity: 0.3;
+  }
+
+  .wave-bar:nth-child(2n) {
+    animation-delay: 0.2s;
+  }
+
+  .wave-bar:nth-child(3n) {
+    animation-delay: 0.4s;
+  }
+
+  .wave-bar:nth-child(4n) {
+    animation-delay: 0.6s;
+  }
+
+  .wave-bar:nth-child(5n) {
+    animation-delay: 0.8s;
+  }
+
+  @keyframes wave {
+    0%, 100% { height: 5px; }
+    50% { height: 40px; }
+  }
+
+  .wave-visualizer.active .wave-bar {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 600px) {
+    body {
+      padding: 10px;
+    }
+    
+    h1 {
+      font-size: 24px;
+    }
+    
+    .panel {
+      padding: 15px;
+    }
+    
+    button {
+      padding: 10px;
+      font-size: 14px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="cosmic-bg">
+    <div class="stars"></div>
+    <div class="nebula nebula1"></div>
+    <div class="nebula nebula2"></div>
+    <div class="nebula nebula3"></div>
+  </div>
+
+  <h1>Soundbath Frequency Player</h1>
+
+  <div class="panel">
+    <h2>Solfeggio Frequencies</h2>
+    <div class="frequency-display" id="solfeggioDisplay"></div>
+    <div class="wave-visualizer" id="solfeggioWave">
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+    </div>
+    <select id="solfeggioSelect">
+      <option value="174">174 Hz – Pain Relief</option>
+      <option value="285">285 Hz – Tissue Healing</option>
+      <option value="396">396 Hz – Liberating Fear</option>
+      <option value="417">417 Hz – Clearing Negativity</option>
+      <option value="528">528 Hz – DNA Repair</option>
+      <option value="639">639 Hz – Relationships</option>
+      <option value="741">741 Hz – Intuition</option>
+      <option value="852">852 Hz – Spiritual Return</option>
+    </select>
+    <div class="button-container">
+      <button id="solfeggioPlay" onclick="playTone('solfeggio')">Play</button>
+      <button id="solfeggioStop" class="stop" onclick="stopTone('solfeggio')" disabled>Stop</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Schumann Resonance <span class="playing-indicator" id="schumannIndicator"></span></h2>
+    <div class="frequency-display" id="schumannDisplay"></div>
+    <div class="wave-visualizer" id="schumannWave">
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+    </div>
+    <div class="button-container">
+      <button id="schumannPlay" onclick="playSchumann()">Play</button>
+      <button id="schumannStop" class="stop" onclick="stopSchumann()" disabled>Stop</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Binaural Beats <span class="playing-indicator" id="binauralIndicator"></span></h2>
+    <div class="frequency-display" id="binauralDisplay"></div>
+    <div class="wave-visualizer" id="binauralWave">
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+    </div>
+    <label>Left Ear (Hz)</label>
+    <input id="leftFreq" type="number" value="200" />
+
+    <label>Right Ear (Hz)</label>
+    <input id="rightFreq" type="number" value="208" />
+
+    <div class="button-container">
+      <button id="binauralPlay" onclick="playBinaural()">Play</button>
+      <button id="binauralStop" class="stop" onclick="stopBinaural()" disabled>Stop</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Matonic Cycle (Music Astronomy Cycle) <span class="playing-indicator" id="matonicIndicator"></span></h2>
+    <div class="frequency-display" id="matonicDisplay"></div>
+    <div class="wave-visualizer" id="matonicWave">
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+    </div>
+    <p>Plays a cycling set of 19 tones representing lunar-solar harmonics.</p>
+    <div class="button-container">
+      <button id="matonicPlay" onclick="playMatonic()">Play</button>
+      <button id="matonicStop" class="stop" onclick="stopMatonic()" disabled>Stop</button>
+    </div>
+  </div>
+
+<script>
+// Generate stars
+const starsContainer = document.querySelector('.stars');
+for (let i = 0; i < 100; i++) {
+  const star = document.createElement('div');
+  star.className = 'star';
+  star.style.left = `${Math.random() * 100}%`;
+  star.style.top = `${Math.random() * 100}%`;
+  const size = Math.random() * 2;
+  star.style.width = `${size}px`;
+  star.style.height = `${size}px`;
+  star.style.animationDelay = `${Math.random() * 3}s`;
+  starsContainer.appendChild(star);
+}
+
+let ctx;
+let oscillators = {
+  solfeggio: null,
+  schumann: null,
+  binauralLeft: null,
+  binauralRight: null,
+  matonic: []
+};
+
+function getCtx() {
+  if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+  return ctx;
+}
+
+function playTone(type) {
+  if (oscillators[type]) return; // Already playing
+  
+  const audio = getCtx();
+  const freq = parseFloat(document.getElementById('solfeggioSelect').value);
+  const osc = audio.createOscillator();
+  const gain = audio.createGain();
+
+  osc.frequency.value = freq;
+  osc.type = "sine";
+  gain.gain.value = 0.2;
+
+  osc.connect(gain).connect(audio.destination);
+  osc.start();
+  
+  oscillators[type] = osc;
+  
+  // Update UI
+  document.getElementById('solfeggioPlay').disabled = true;
+  document.getElementById('solfeggioStop').disabled = false;
+  document.getElementById('solfeggioDisplay').textContent = `${freq} Hz`;
+  document.getElementById('solfeggioWave').classList.add('active');
+}
+
+function stopTone(type) {
+  if (!oscillators[type]) return; // Not playing
+  
+  const audio = getCtx();
+  oscillators[type].stop(audio.currentTime + 0.1);
+  oscillators[type] = null;
+  
+  // Update UI
+  document.getElementById('solfeggioPlay').disabled = false;
+  document.getElementById('solfeggioStop').disabled = true;
+  document.getElementById('solfeggioDisplay').textContent = '';
+  document.getElementById('solfeggioWave').classList.remove('active');
+}
+
+function playSchumann() {
+  if (oscillators.schumann) return; // Already playing
+  
+  const audio = getCtx();
+  const osc = audio.createOscillator();
+  const gain = audio.createGain();
+
+  osc.frequency.value = 7.83;
+  osc.type = "sine";
+  gain.gain.value = 0.3;
+
+  osc.connect(gain).connect(audio.destination);
+  osc.start();
+  
+  oscillators.schumann = osc;
+  
+  // Update UI
+  document.getElementById('schumannPlay').disabled = true;
+  document.getElementById('schumannStop').disabled = false;
+  document.getElementById('schumannIndicator').classList.add('active');
+  document.getElementById('schumannDisplay').textContent = '7.83 Hz';
+  document.getElementById('schumannWave').classList.add('active');
+}
+
+function stopSchumann() {
+  if (!oscillators.schumann) return; // Not playing
+  
+  const audio = getCtx();
+  oscillators.schumann.stop(audio.currentTime + 0.1);
+  oscillators.schumann = null;
+  
+  // Update UI
+  document.getElementById('schumannPlay').disabled = false;
+  document.getElementById('schumannStop').disabled = true;
+  document.getElementById('schumannIndicator').classList.remove('active');
+  document.getElementById('schumannDisplay').textContent = '';
+  document.getElementById('schumannWave').classList.remove('active');
+}
+
+function playBinaural() {
+  if (oscillators.binauralLeft) return; // Already playing
+  
+  const audio = getCtx();
+  const left = audio.createOscillator();
+  const right = audio.createOscillator();
+
+  const merger = audio.createChannelMerger(2);
+
+  const leftFreq = parseFloat(document.getElementById('leftFreq').value);
+  const rightFreq = parseFloat(document.getElementById('rightFreq').value);
+  
+  left.frequency.value = leftFreq;
+  right.frequency.value = rightFreq;
+
+  const gain = audio.createGain();
+  gain.gain.value = 0.2;
+
+  left.connect(merger, 0, 0);
+  right.connect(merger, 0, 1);
+
+  merger.connect(gain).connect(audio.destination);
+
+  left.start();
+  right.start();
+  
+  oscillators.binauralLeft = left;
+  oscillators.binauralRight = right;
+  
+  // Update UI
+  document.getElementById('binauralPlay').disabled = true;
+  document.getElementById('binauralStop').disabled = false;
+  document.getElementById('binauralIndicator').classList.add('active');
+  document.getElementById('binauralDisplay').textContent = `${leftFreq} Hz | ${rightFreq} Hz`;
+  document.getElementById('binauralWave').classList.add('active');
+}
+
+function stopBinaural() {
+  if (!oscillators.binauralLeft) return; // Not playing
+  
+  const audio = getCtx();
+  oscillators.binauralLeft.stop(audio.currentTime + 0.1);
+  oscillators.binauralRight.stop(audio.currentTime + 0.1);
+  oscillators.binauralLeft = null;
+  oscillators.binauralRight = null;
+  
+  // Update UI
+  document.getElementById('binauralPlay').disabled = false;
+  document.getElementById('binauralStop').disabled = true;
+  document.getElementById('binauralIndicator').classList.remove('active');
+  document.getElementById('binauralDisplay').textContent = '';
+  document.getElementById('binauralWave').classList.remove('active');
+}
+
+function playMatonic() {
+  if (oscillators.matonic.length > 0) return; // Already playing
+  
+  const audio = getCtx();
+  const tones = [110, 123, 130, 146, 164, 174, 196, 220, 246, 261, 293, 329, 349, 392, 440, 493, 523, 587, 659];
+  let t = audio.currentTime;
+  
+  const newOscillators = [];
+  
+  tones.forEach((f, i) => {
+    const osc = audio.createOscillator();
+    const gain = audio.createGain();
+    gain.gain.value = 0.2;
+    osc.frequency.value = f;
+    osc.connect(gain).connect(audio.destination);
+    osc.start(t + i * 0.7);
+    osc.stop(t + i * 0.7 + 0.6);
+    newOscillators.push(osc);
+  });
+  
+  oscillators.matonic = newOscillators;
+  
+  // Update UI
+  document.getElementById('matonicPlay').disabled = true;
+  document.getElementById('matonicStop').disabled = true; // Can't stop mid-cycle
+  document.getElementById('matonicIndicator').classList.add('active');
+  document.getElementById('matonicDisplay').textContent = 'Playing 19-tone cycle...';
+  document.getElementById('matonicWave').classList.add('active');
+  
+  // Re-enable play button after cycle completes
+  setTimeout(() => {
+    oscillators.matonic = [];
+    document.getElementById('matonicPlay').disabled = false;
+    document.getElementById('matonicIndicator').classList.remove('active');
+    document.getElementById('matonicDisplay').textContent = '';
+    document.getElementById('matonicWave').classList.remove('active');
+  }, tones.length * 700);
+}
+
+function stopMatonic() {
+  if (oscillators.matonic.length === 0) return; // Not playing
+  
+  const audio = getCtx();
+  oscillators.matonic.forEach(osc => {
+    try {
+      osc.stop(audio.currentTime + 0.1);
+    } catch (e) {
+      // Oscillator might have already stopped
+    }
+  });
+  oscillators.matonic = [];
+  
+  // Update UI
+  document.getElementById('matonicPlay').disabled = false;
+  document.getElementById('matonicIndicator').classList.remove('active');
+  document.getElementById('matonicDisplay').textContent = '';
+  document.getElementById('matonicWave').classList.remove('active');
+}
+</script>
+</body>
+</html>
